@@ -1,0 +1,436 @@
+basePath: /v1/beatsheet/
+definitions:
+  model.Act:
+    properties:
+      cameraAngle:
+        type: string
+      description:
+        type: string
+      duration:
+        type: integer
+      id:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  model.Beat:
+    properties:
+      acts:
+        items:
+          $ref: '#/definitions/model.Act'
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      timestamp:
+        type: string
+    type: object
+  model.BeatSheet:
+    properties:
+      beats:
+        items:
+          $ref: '#/definitions/model.Beat'
+        type: array
+      id:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: anasahmaddev@gmail.com
+    name: Anas Ahmad
+    url: https://github.com/anasahmad
+  description: This is a beat sheet service
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: BeatSheet Swagger
+  version: "1.0"
+paths:
+  /beatsheet:
+    get:
+      consumes:
+      - application/json
+      description: GET All BeatSheets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: GET BeatSheets
+      tags:
+      - BeatSheet
+    post:
+      consumes:
+      - application/json
+      description: Post BeatSheet from the object in the body
+      parameters:
+      - description: BeatSheet Data
+        in: body
+        name: beatSheet
+        required: true
+        schema:
+          $ref: '#/definitions/model.BeatSheet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Post BeatSheet
+      tags:
+      - BeatSheet
+  /beatsheet/:id:
+    delete:
+      consumes:
+      - application/json
+      description: DELETE BeatSheet by id
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: DELETE BeatSheet
+      tags:
+      - BeatSheet
+    get:
+      consumes:
+      - application/json
+      description: GET BeatSheet by id
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: GET BeatSheet
+      tags:
+      - BeatSheet
+    put:
+      consumes:
+      - application/json
+      description: Update BeatSheet with the object in the body
+      parameters:
+      - description: BeatSheet Data
+        in: body
+        name: BeatSheet
+        required: true
+        schema:
+          $ref: '#/definitions/model.BeatSheet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: PUT BeatSheet
+      tags:
+      - BeatSheet
+  /beatsheet/:id/beat:
+    post:
+      consumes:
+      - application/json
+      description: Post Beat from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat Data
+        in: body
+        name: beat
+        required: true
+        schema:
+          $ref: '#/definitions/model.Beat'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Post Beat
+      tags:
+      - Beat
+  /beatsheet/:id/beat/:beatId/act:
+    post:
+      consumes:
+      - application/json
+      description: Post Act from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat ID
+        in: path
+        name: beatId
+        required: true
+        type: integer
+      - description: Act Data
+        in: body
+        name: act
+        required: true
+        schema:
+          $ref: '#/definitions/model.Act'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Post Act
+      tags:
+      - Act
+  /beatsheet/:id/beat/:beatId/act/:actId:
+    delete:
+      consumes:
+      - application/json
+      description: Update Act from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat ID
+        in: path
+        name: beatId
+        required: true
+        type: integer
+      - description: Act ID
+        in: path
+        name: actId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: PUT Act
+      tags:
+      - Act
+    put:
+      consumes:
+      - application/json
+      description: Update Act from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat ID
+        in: path
+        name: beatId
+        required: true
+        type: integer
+      - description: Act ID
+        in: path
+        name: actId
+        required: true
+        type: integer
+      - description: Act Data
+        in: body
+        name: act
+        required: true
+        schema:
+          $ref: '#/definitions/model.Act'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: PUT Act
+      tags:
+      - Act
+  /beatsheet/:id/beat/beatId:
+    delete:
+      consumes:
+      - application/json
+      description: DELETE Beat from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat ID
+        in: path
+        name: beatId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: DELETE Beat
+      tags:
+      - Beat
+    put:
+      consumes:
+      - application/json
+      description: PUT Beat from the object in the body
+      parameters:
+      - description: BeatSheet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Beat ID
+        in: path
+        name: beatId
+        required: true
+        type: integer
+      - description: Beat Data
+        in: body
+        name: beat
+        required: true
+        schema:
+          $ref: '#/definitions/model.Beat'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+        "404":
+          description: Not Found
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: PUT Beat
+      tags:
+      - Beat
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
