@@ -9,6 +9,11 @@ import (
 
 type ActController struct {
 	dataClient data.DataClient
+	aiModel    *ai.AIModel
+}
+
+func NewActController(dataClient data.DataClient, aiModel *ai.AIModel) ActController {
+	return ActController{dataClient: dataClient, aiModel: aiModel}
 }
 
 // POSTAct godoc
@@ -26,16 +31,15 @@ type ActController struct {
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat/:beatId/act  [post]
-func POSTAct(ctx *gin.Context) {
+func (c *ActController) POSTAct(ctx *gin.Context) {
 	var act model.Act
 	// Retrieving path params
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")
-	mClient := data.NewMongoClient(ctx)
 	// Binding body to the struct
 	ctx.ShouldBindJSON(&act)
-	ai.NewAIModel().AddAct(act)
-	actId, err := mClient.AddAct(id, beatId, act)
+	c.aiModel.AddAct(act)
+	actId, err := c.dataClient.AddAct(id, beatId, act)
 	responseHandler(ctx, actId, err)
 }
 
@@ -55,14 +59,13 @@ func POSTAct(ctx *gin.Context) {
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat/:beatId/act/:actId  [put]
-func PUTAct(ctx *gin.Context) {
+func (c *ActController) PUTAct(ctx *gin.Context) {
 	var act model.Act
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")
 	ActId := ctx.Param("actId")
-	mClient := data.NewMongoClient(ctx)
 	ctx.ShouldBindJSON(&act)
-	res, err := mClient.UpdateAct(id, beatId, ActId, act)
+	res, err := c.dataClient.UpdateAct(id, beatId, ActId, act)
 	responseHandler(ctx, res, err)
 }
 
@@ -81,11 +84,10 @@ func PUTAct(ctx *gin.Context) {
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat/:beatId/act/:actId  [delete]
-func DELETEAct(ctx *gin.Context) {
+func (c *ActController) DELETEAct(ctx *gin.Context) {
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")
 	ActId := ctx.Param("actId")
-	mClient := data.NewMongoClient(ctx)
-	err := mClient.DeleteAct(id, beatId, ActId)
+	err := c.dataClient.DeleteAct(id, beatId, ActId)
 	responseHandler(ctx, nil, err)
 }

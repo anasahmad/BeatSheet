@@ -2,7 +2,7 @@ package main
 
 import (
 	_ "BeatSheet/docs"
-	"BeatSheet/internal/server"
+	"BeatSheet/internal/app"
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,7 +10,7 @@ import (
 )
 
 //	@title			BeatSheet Swagger
-//	@version		1.0
+//	@version		0.0
 //	@description	This is a beat sheet service
 
 //	@contact.name	Anas Ahmad
@@ -23,10 +23,10 @@ import (
 //	@host		localhost:8080
 //	@BasePath	/v0/beatsheet/
 
-// @securityDefinitions.basic	BasicAuth
 func main() {
 	dbInit()
-	server.Serve()
+	app := app.NewApp()
+	app.Run()
 }
 
 func dbInit() {

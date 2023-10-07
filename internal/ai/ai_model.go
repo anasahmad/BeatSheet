@@ -5,9 +5,17 @@ import (
 	"errors"
 	"github.com/rxwycdh/rxhash"
 	"sync"
+	"time"
 )
 
 var beatSheetModel *AIModel
+
+type AIModelSpec interface {
+	AddBeat(beat model.Beat)
+	AddAct(act model.Act)
+	GetNextBeatSuggestion() (model.Beat, error)
+	GetNextActSuggestion() (model.Act, error)
+}
 
 type AIModel struct {
 	beats []model.Beat
@@ -54,14 +62,14 @@ func (ai *AIModel) AddAct(act model.Act) {
 
 // GetNextBeatSuggestion  goes through the list and checks what's the beat which comes after the ones matching with the previous beat
 // we can count which were the most & we can return that
-// suggest something random if the latest beat was the only time it was used
+// error if the latest beat was the only time it was used
 // return nothing if the collection is empty
 func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
 	ai.mu.Lock()
 	defer ai.mu.Unlock()
 
 	if len(ai.beats) == 0 {
-		return model.Beat{}, errors.New("no previous history of beats")
+		return model.Beat{}, errors.New("beats == 0 - no previous history of beats")
 	}
 
 	latestBeat := ai.beats[len(ai.beats)-1]
@@ -78,7 +86,10 @@ func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
 	// the beat coming after the latest the most times should be returned
 	for i, beat := range ai.beats {
 		if beat.Description == latestBeat.Description {
-			if i+1 < len(ai.beats)-1 {
+			if i+1 < len(ai.beats) {
+				//id and time are always unique
+				beat.Id = ""
+				beat.Timestamp = time.Time{}
 				h, _ := rxhash.HashStruct(ai.beats[i+1])
 				hashToBeat[h] = ai.beats[i+1]
 				recurringMap[h] = recurringMap[h] + 1
@@ -102,12 +113,16 @@ func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
 	return hashToBeat[mostChanceHash], nil
 }
 
+// GetNextActSuggestion  goes through the list and checks what's the act which comes after the ones matching with the previous act
+// we can count which were the most & we can return that
+// error if the latest act was the only time it was used
+// return nothing if the collection is empty
 func (ai *AIModel) GetNextActSuggestion() (model.Act, error) {
 	ai.mu.Lock()
 	defer ai.mu.Unlock()
 
 	if len(ai.acts) == 0 {
-		return model.Act{}, errors.New("no previous history of acts")
+		return model.Act{}, errors.New("acts == 0 - no previous history of acts")
 	}
 
 	latestAct := ai.acts[len(ai.acts)-1]
@@ -124,6 +139,9 @@ func (ai *AIModel) GetNextActSuggestion() (model.Act, error) {
 	// for we will be adding points for each attribute map i.e. description, camera angle, duration
 	for i, act := range ai.acts {
 		if i+1 < len(ai.acts) {
+			//id and time are always unique
+			act.Id = ""
+			act.Timestamp = time.Time{}
 			h, _ := rxhash.HashStruct(ai.acts[i+1])
 			if act.Description == latestAct.Description {
 				hashToAct[h] = ai.acts[i+1]

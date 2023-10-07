@@ -1,26 +1,35 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"BeatSheet/internal/controller"
+	"github.com/gin-gonic/gin"
+)
 
-type Definition struct {
+type Server struct {
 	Address     string
 	ContextRoot string
 }
 
+func NewServer(add string, contextRoot string) Server {
+	return Server{
+		Address:     add,
+		ContextRoot: contextRoot,
+	}
+}
+
 var (
-	engine     *gin.Engine
-	definition = Definition{
+	definition = Server{
 		Address:     ":8080",
 		ContextRoot: "/v0/beatsheet",
 	}
 )
 
-func Serve() {
-	engine = gin.Default()
-	router := engine.Group(definition.ContextRoot)
-	routing(router)
+func (s *Server) Serve(sheetController controller.BeatSheetController, beatController controller.BeatController, actController controller.ActController, aiController controller.AIController, healthController controller.HealthController) {
+	engine := gin.Default()
+	router := engine.Group(s.ContextRoot)
+	routing(router, sheetController, beatController, actController, aiController, healthController)
 
-	err := engine.Run(definition.Address)
+	err := engine.Run(s.Address)
 
 	if err != nil {
 		return

@@ -1,0 +1,512 @@
+{
+	"info": {
+		"_postman_id": "195a5582-4083-4bbf-a2a3-b38b1ef1eceb",
+		"name": "BeatSheet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9043614"
+	},
+	"item": [
+		{
+			"name": "BeatSheet",
+			"item": [
+				{
+					"name": "Post BeatSheet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"title\": \"Anas' Beat Sheet\",\n    \"beats\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v0/beatsheet",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put BeatSheet",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"second\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "asdadasdadasdsadssa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get BeatSheets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"asdadasdadasdsadssa\",\n    \"title\": \"first\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get BeatSheet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete BeatSheet",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Beat",
+			"item": [
+				{
+					"name": "Post Beat",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"description\": \"The first beat\",\n    \"acts\": [],\n    \"timestamp\": 21312321321312\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Beat",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"56466e8b-a618-450b-99eb-c0a1a3fc9ed3\",\n    \"description\": \"The second beat changed\",\n    \"acts\": [],\n    \"timestamp\": 21312321321312\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat/:beatId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat",
+								":beatId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "df8967f1-0353-4488-88f7-24a1733b0112"
+								},
+								{
+									"key": "beatId",
+									"value": "56466e8b-a618-450b-99eb-c0a1a3fc9ed3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Beat",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat/:beatId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat",
+								":beatId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								},
+								{
+									"key": "beatId",
+									"value": "d9f1ab57-7502-4b57-b312-55b72f40da46"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Act",
+			"item": [
+				{
+					"name": "Post Act",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{$guid}}\",\n    \"description\": \"The second act\",\n    \"duration\": \"6000\",\n    \"cameraAngle\": \"Front\",\n    \"timestamp\": 2131232132131212321\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat/:beatId/act",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat",
+								":beatId",
+								"act"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								},
+								{
+									"key": "beatId",
+									"value": "2656f845-61bc-44e6-8e91-bd0b9fe40d12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Act",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"d37f3b04-da9c-4d92-811c-46d05e9a0806\",\n    \"description\": \"the first act changed\",\n    \"duration\": \"12313\",\n    \"cameraAngle\": \"front\",\n    \"timestamp\": 21312321321312\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat/:beatId/act/:actId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat",
+								":beatId",
+								"act",
+								":actId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								},
+								{
+									"key": "beatId",
+									"value": "2656f845-61bc-44e6-8e91-bd0b9fe40d12"
+								},
+								{
+									"key": "actId",
+									"value": "d37f3b04-da9c-4d92-811c-46d05e9a0806"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Act",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/:id/beat/:beatId/act/:actId",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								":id",
+								"beat",
+								":beatId",
+								"act",
+								":actId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5d64fc84-1c08-4d4a-8af2-b3b137ea2147"
+								},
+								{
+									"key": "beatId",
+									"value": "2656f845-61bc-44e6-8e91-bd0b9fe40d12"
+								},
+								{
+									"key": "actId",
+									"value": "d37f3b04-da9c-4d92-811c-46d05e9a0806"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Predict",
+			"item": [
+				{
+					"name": "Beat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/predict/beat",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								"predict",
+								"beat"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Act",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v0/beatsheet/predict/act",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v0",
+								"beatsheet",
+								"predict",
+								"act"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v0/beatsheet/health/liveness",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v0",
+						"beatsheet",
+						"health",
+						"liveness"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

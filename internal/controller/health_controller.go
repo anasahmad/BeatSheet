@@ -5,6 +5,12 @@ import (
 	"net/http"
 )
 
-func Liveness(context *gin.Context) {
+type HealthController struct {
+}
+
+func NewHealthController() HealthController {
+	return HealthController{}
+}
+func (c *HealthController) Liveness(context *gin.Context) {
 	context.Status(http.StatusOK)
 }

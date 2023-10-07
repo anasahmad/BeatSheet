@@ -197,8 +197,6 @@ func TestAIModel_GetNextActSuggestion(t *testing.T) {
 func TestAIModel_GetNextBeatSuggestion(t *testing.T) {
 	type fields struct {
 		beats []model.Beat
-		acts  []model.Act
-		mu    sync.Mutex
 	}
 	tests := []struct {
 		name    string
@@ -206,20 +204,65 @@ func TestAIModel_GetNextBeatSuggestion(t *testing.T) {
 		want    model.Beat
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{name: "8", fields: fields{beats: []model.Beat{
+			{
+				Id:          "asjdlkasjdlkas",
+				Description: "first beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "asjdlkassf32423jdlkas",
+				Description: "second beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "sdfdsfssdfs",
+				Description: "first beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "cxvxwerewrwerwe",
+				Description: "second beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "asjdlkasjdlkas",
+				Description: "first beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "asjdlkassf32423jdlkas",
+				Description: "third beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "sdfdsfssdfs",
+				Description: "first beat",
+				Timestamp:   time.Time{},
+			},
+			{
+				Id:          "cxvxwerewrwerwe",
+				Description: "third beat",
+				Timestamp:   time.Time{},
+			},
+		}}, want: model.Beat{
+			Id:          "asjdlkasjdlkas",
+			Description: "first beat",
+			Timestamp:   time.Time{},
+		}, wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ai := &AIModel{
 				beats: tt.fields.beats,
-				acts:  tt.fields.acts,
-				mu:    tt.fields.mu,
 			}
 			got, err := ai.GetNextBeatSuggestion()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetNextBeatSuggestion() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+			got.Id = ""
+			tt.want.Id = ""
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetNextBeatSuggestion() got = %v, want %v", got, tt.want)
 			}

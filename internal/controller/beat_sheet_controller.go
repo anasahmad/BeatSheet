@@ -8,6 +8,14 @@ import (
 	"reflect"
 )
 
+type BeatSheetController struct {
+	dataClient data.DataClient
+}
+
+func NewBeatSheetController(dataClient data.DataClient) BeatSheetController {
+	return BeatSheetController{dataClient: dataClient}
+}
+
 // POSTBeatSheet godoc
 //
 //	@Summary		Post BeatSheet
@@ -21,11 +29,10 @@ import (
 //	@Failure		404			{object}	error
 //	@Failure		500			{object}	error
 //	@Router			/beatsheet  [post]
-func POSTBeatSheet(ctx *gin.Context) {
+func (c *BeatSheetController) POSTBeatSheet(ctx *gin.Context) {
 	var beatSheet model.BeatSheet
-	mClient := data.NewMongoClient(ctx)
 	ctx.ShouldBindJSON(&beatSheet)
-	id, err := mClient.CreateBeatSheet(beatSheet)
+	id, err := c.dataClient.CreateBeatSheet(beatSheet)
 	responseHandler(ctx, id, err)
 }
 
@@ -42,10 +49,9 @@ func POSTBeatSheet(ctx *gin.Context) {
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
 //	@Router			/beatsheet/:id  [get]
-func GETBeatSheet(ctx *gin.Context) {
+func (c *BeatSheetController) GETBeatSheet(ctx *gin.Context) {
 	id := ctx.Param("id")
-	mClient := data.NewMongoClient(ctx)
-	beatSheet, err := mClient.RetrieveBeatSheet(id)
+	beatSheet, err := c.dataClient.RetrieveBeatSheet(id)
 	responseHandler(ctx, beatSheet, err)
 }
 
@@ -63,12 +69,11 @@ func GETBeatSheet(ctx *gin.Context) {
 //	@Failure		404			{object}	error
 //	@Failure		500			{object}	error
 //	@Router			/beatsheet/:id  [put]
-func PUTBeatSheet(ctx *gin.Context) {
+func (c *BeatSheetController) PUTBeatSheet(ctx *gin.Context) {
 	var beatSheet model.BeatSheet
 	id := ctx.Param("id")
-	mClient := data.NewMongoClient(ctx)
 	ctx.ShouldBindJSON(&beatSheet)
-	res, err := mClient.UpdateBeatSheet(id, &beatSheet)
+	res, err := c.dataClient.UpdateBeatSheet(id, &beatSheet)
 	responseHandler(ctx, res, err)
 }
 
@@ -85,10 +90,9 @@ func PUTBeatSheet(ctx *gin.Context) {
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
 //	@Router			/beatsheet/:id  [delete]
-func DELETEBeatSheet(ctx *gin.Context) {
+func (c *BeatSheetController) DELETEBeatSheet(ctx *gin.Context) {
 	id := ctx.Param("id")
-	mClient := data.NewMongoClient(ctx)
-	err := mClient.DeleteBeatSheet(id)
+	err := c.dataClient.DeleteBeatSheet(id)
 	responseHandler(ctx, nil, err)
 }
 
@@ -104,16 +108,15 @@ func DELETEBeatSheet(ctx *gin.Context) {
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
 //	@Router			/beatsheet  [get]
-func GETBeatSheets(ctx *gin.Context) {
-	mClient := data.NewMongoClient(ctx)
-	baatSheets, err := mClient.RetrieveBeatSheets()
+func (c *BeatSheetController) GETBeatSheets(ctx *gin.Context) {
+	baatSheets, err := c.dataClient.RetrieveBeatSheets()
 	responseHandler(ctx, baatSheets, err)
 }
 
 func responseHandler(ctx *gin.Context, res interface{}, err interface{}) {
 	if err != nil { // error within the app
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"error": err,
+			"error": err.(error).Error(),
 		})
 	} else if res == nil { // delete
 		ctx.AbortWithStatus(204)

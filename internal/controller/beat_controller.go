@@ -7,6 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type BeatController struct {
+	dataClient data.DataClient
+	aiModel    *ai.AIModel
+}
+
+func NewBeatController(dataClient data.DataClient, aiModel *ai.AIModel) BeatController {
+	return BeatController{dataClient: dataClient, aiModel: aiModel}
+}
+
 // POSTBeat godoc
 //
 //	@Summary		Post Beat
@@ -21,13 +30,12 @@ import (
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat  [post]
-func POSTBeat(ctx *gin.Context) {
+func (c *BeatController) POSTBeat(ctx *gin.Context) {
 	var beat model.Beat
 	id := ctx.Param("id")
-	mClient := data.NewMongoClient(ctx)
 	ctx.ShouldBindJSON(&beat)
 	ai.NewAIModel().AddBeat(beat)
-	beatId, err := mClient.AddBeat(id, beat)
+	beatId, err := c.dataClient.AddBeat(id, beat)
 	responseHandler(ctx, beatId, err)
 }
 
@@ -46,13 +54,12 @@ func POSTBeat(ctx *gin.Context) {
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat/beatId  [put]
-func PUTBeat(ctx *gin.Context) {
+func (c *BeatController) PUTBeat(ctx *gin.Context) {
 	var beat model.Beat
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")
-	mClient := data.NewMongoClient(ctx)
 	ctx.ShouldBindJSON(&beat)
-	res, err := mClient.UpdateBeat(id, beatId, beat)
+	res, err := c.dataClient.UpdateBeat(id, beatId, beat)
 	responseHandler(ctx, res, err)
 }
 
@@ -70,10 +77,9 @@ func PUTBeat(ctx *gin.Context) {
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
 //	@Router			/beatsheet/:id/beat/beatId  [delete]
-func DELETEBeat(ctx *gin.Context) {
+func (c *BeatController) DELETEBeat(ctx *gin.Context) {
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")
-	mClient := data.NewMongoClient(ctx)
-	err := mClient.DeleteBeat(id, beatId)
+	err := c.dataClient.DeleteBeat(id, beatId)
 	responseHandler(ctx, nil, err)
 }
