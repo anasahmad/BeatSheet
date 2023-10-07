@@ -7,6 +7,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ActController struct {
+	dataClient data.DataClient
+}
+
 // POSTAct godoc
 //
 //	@Summary		Post Act

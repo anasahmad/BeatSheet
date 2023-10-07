@@ -52,8 +52,8 @@ func (ai *AIModel) AddAct(act model.Act) {
 	ai.acts = append(ai.acts, act)
 }
 
-// GetNextBeatSuggestion todo -- goes through the list and checks what's the beat which comes after the ones matching with the previous beat
-// todo -- we can count which were the most & we can return that
+// GetNextBeatSuggestion  goes through the list and checks what's the beat which comes after the ones matching with the previous beat
+// we can count which were the most & we can return that
 // suggest something random if the latest beat was the only time it was used
 // return nothing if the collection is empty
 func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
@@ -78,7 +78,7 @@ func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
 	// the beat coming after the latest the most times should be returned
 	for i, beat := range ai.beats {
 		if beat.Description == latestBeat.Description {
-			if i < len(ai.beats)-1 {
+			if i+1 < len(ai.beats)-1 {
 				h, _ := rxhash.HashStruct(ai.beats[i+1])
 				hashToBeat[h] = ai.beats[i+1]
 				recurringMap[h] = recurringMap[h] + 1
@@ -94,9 +94,9 @@ func (ai *AIModel) GetNextBeatSuggestion() (model.Beat, error) {
 		}
 	}
 
-	// if there was beat after the latest beat, just return the latest beat
+	// if there wasn't beat after the latest beat, return an error
 	if mostChanceHash == "" {
-		return latestBeat, nil
+		return model.Beat{}, errors.New("no previous history of beats")
 	}
 
 	return hashToBeat[mostChanceHash], nil
@@ -123,8 +123,8 @@ func (ai *AIModel) GetNextActSuggestion() (model.Act, error) {
 	// Find older occurrences of the latest Act (it's attributes) and check what came after it
 	// for we will be adding points for each attribute map i.e. description, camera angle, duration
 	for i, act := range ai.acts {
-		h, _ := rxhash.HashStruct(ai.beats[i+1])
-		if i < len(ai.acts)-1 {
+		if i+1 < len(ai.acts) {
+			h, _ := rxhash.HashStruct(ai.acts[i+1])
 			if act.Description == latestAct.Description {
 				hashToAct[h] = ai.acts[i+1]
 				recurringMap[h] = recurringMap[h] + 1
@@ -150,9 +150,9 @@ func (ai *AIModel) GetNextActSuggestion() (model.Act, error) {
 		}
 	}
 
-	// if there was act after the latest act, just return the latest act
+	// if there was act after the latest act, return an error
 	if mostChanceHash == "" {
-		return latestAct, nil
+		return model.Act{}, errors.New("no previous history of acts")
 	}
 
 	return hashToAct[mostChanceHash], nil
