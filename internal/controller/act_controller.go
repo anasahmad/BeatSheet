@@ -30,7 +30,7 @@ func NewActController(dataClient data.DataClient, aiModel *ai.AIModel) ActContro
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat/:beatId/act  [post]
+//	@Router			/:id/beat/:beatId/act  [post]
 func (c *ActController) POSTAct(ctx *gin.Context) {
 	var act model.Act
 	// Retrieving path params
@@ -58,7 +58,7 @@ func (c *ActController) POSTAct(ctx *gin.Context) {
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat/:beatId/act/:actId  [put]
+//	@Router			/:id/beat/:beatId/act/:actId  [put]
 func (c *ActController) PUTAct(ctx *gin.Context) {
 	var act model.Act
 	id := ctx.Param("id")
@@ -83,7 +83,7 @@ func (c *ActController) PUTAct(ctx *gin.Context) {
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat/:beatId/act/:actId  [delete]
+//	@Router			/:id/beat/:beatId/act/:actId  [delete]
 func (c *ActController) DELETEAct(ctx *gin.Context) {
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")

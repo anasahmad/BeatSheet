@@ -29,7 +29,7 @@ func NewBeatController(dataClient data.DataClient, aiModel *ai.AIModel) BeatCont
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat  [post]
+//	@Router			/:id/beat  [post]
 func (c *BeatController) POSTBeat(ctx *gin.Context) {
 	var beat model.Beat
 	id := ctx.Param("id")
@@ -53,7 +53,7 @@ func (c *BeatController) POSTBeat(ctx *gin.Context) {
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat/beatId  [put]
+//	@Router			/:id/beat/beatId  [put]
 func (c *BeatController) PUTBeat(ctx *gin.Context) {
 	var beat model.Beat
 	id := ctx.Param("id")
@@ -76,7 +76,7 @@ func (c *BeatController) PUTBeat(ctx *gin.Context) {
 //	@Failure		400		{object}	error
 //	@Failure		404		{object}	error
 //	@Failure		500		{object}	error
-//	@Router			/beatsheet/:id/beat/beatId  [delete]
+//	@Router			/:id/beat/beatId  [delete]
 func (c *BeatController) DELETEBeat(ctx *gin.Context) {
 	id := ctx.Param("id")
 	beatId := ctx.Param("beatId")

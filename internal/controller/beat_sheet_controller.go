@@ -28,7 +28,7 @@ func NewBeatSheetController(dataClient data.DataClient) BeatSheetController {
 //	@Failure		400			{object}	error
 //	@Failure		404			{object}	error
 //	@Failure		500			{object}	error
-//	@Router			/beatsheet  [post]
+//	@Router			/  [post]
 func (c *BeatSheetController) POSTBeatSheet(ctx *gin.Context) {
 	var beatSheet model.BeatSheet
 	ctx.ShouldBindJSON(&beatSheet)
@@ -48,7 +48,7 @@ func (c *BeatSheetController) POSTBeatSheet(ctx *gin.Context) {
 //	@Failure		400	{object}	error
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
-//	@Router			/beatsheet/:id  [get]
+//	@Router			/:id  [get]
 func (c *BeatSheetController) GETBeatSheet(ctx *gin.Context) {
 	id := ctx.Param("id")
 	beatSheet, err := c.dataClient.RetrieveBeatSheet(id)
@@ -68,7 +68,7 @@ func (c *BeatSheetController) GETBeatSheet(ctx *gin.Context) {
 //	@Failure		400			{object}	error
 //	@Failure		404			{object}	error
 //	@Failure		500			{object}	error
-//	@Router			/beatsheet/:id  [put]
+//	@Router			/:id  [put]
 func (c *BeatSheetController) PUTBeatSheet(ctx *gin.Context) {
 	var beatSheet model.BeatSheet
 	id := ctx.Param("id")
@@ -89,7 +89,7 @@ func (c *BeatSheetController) PUTBeatSheet(ctx *gin.Context) {
 //	@Failure		400	{object}	error
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
-//	@Router			/beatsheet/:id  [delete]
+//	@Router			/:id  [delete]
 func (c *BeatSheetController) DELETEBeatSheet(ctx *gin.Context) {
 	id := ctx.Param("id")
 	err := c.dataClient.DeleteBeatSheet(id)
@@ -103,11 +103,11 @@ func (c *BeatSheetController) DELETEBeatSheet(ctx *gin.Context) {
 //	@Tags			BeatSheet
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{string}	[]model.BeatSheet
+//	@Success		200	{array}	model.BeatSheet
 //	@Failure		400	{object}	error
 //	@Failure		404	{object}	error
 //	@Failure		500	{object}	error
-//	@Router			/beatsheet  [get]
+//	@Router			/  [get]
 func (c *BeatSheetController) GETBeatSheets(ctx *gin.Context) {
 	baatSheets, err := c.dataClient.RetrieveBeatSheets()
 	responseHandler(ctx, baatSheets, err)
